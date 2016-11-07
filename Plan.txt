@@ -1,0 +1,74 @@
+
+
+
+
+To complete this challenge you'll need to create a quiz app that meets the following requirements:
+
+Users start on a screen where they can click a button to start the quiz.
+Make it with html and css
+
+story:A kindergartener is needs to take a quiz, to start the person clicks the button
+
+responses: She clicks the button and the quiz question appears
+
+LOE: 30mins
+
+risks:default behavior of the button
+
+Once the game is started, the user should be prompted through a series of at least 5 
+multiple choice questions which they can answer. Questions are to be asked one after another, and the user should only be able to view one question at a time.
+
+story: The user will be asked questions one after another with the ability to select one answer and save it's result when going to the next question.
+
+responses:When the answer is clicked and the user presses next it saves it and evaluates the answer and then prints the evaluation under the header in the next question.
+
+LOE:2-3 hours
+
+risks:What if the user didn't select an answer? What if the user selected more than one answer. 
+
+
+Users should not be able to skip questions.
+story: The user wants to be protected from submitting the quiz with unanswerd questions.
+
+responses: If the user trys to submit a question without answering it, the page will throw an alert
+
+risks:NA
+
+LOE: 30mins
+
+
+When viewing an individual question, the user should also be able to see which question they're on (for instance, "7 out of 10") and their current score ("5 correct, 2 incorrect").
+
+story:The user wants to know how many more questions to answer before it ends or the time is up.
+
+response:Print the question out of the number of questions below the header.
+
+LOE:15mins
+
+
+
+
+
+
+When a user submits an answer to a question, they should first get feedback on if their answer was correct or not. If it's incorrect, they should be shown the correct answer. Then they should be moved along to the next question.
+
+story:The user wants to know if there answer is correct or not.
+
+response:Have the page alert the user with the result
+
+risks:NA
+
+LOE:15mins
+
+
+After the user has completed the final question, they should be shown their overall score (in other words, how many questions they got right out of the total questions asked) and be able to start a new game.
+
+
+story:The user wants to know how they did on the test
+
+response: Render a page with the results.
+
+risks: Printing the right data, hoisting issues, scoping issues etc
+
+LOE:30mins
+
