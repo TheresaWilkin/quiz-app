@@ -2,8 +2,8 @@
 var state = (function() return {
 	questions: [
 {question: "What is 2 + 2?",
-wrongAnswers: [2, 5, 8],
-rightAnswer: 4,
+answers: ["2", "5", "4", "8"],
+rightAnswer: 2,
 },],
 correctAnswers: 0,
 totalAnswers: 0,
@@ -15,9 +15,9 @@ currentQuestion: 0,
 	//add to totalAnswers
 	//get question
 	//add to currentQuestion
+	//check if answer is correct
 
-
-//dom interactor
+//dom interactions
 	//render question function
 		//pull question data from state
 		//create html for question
