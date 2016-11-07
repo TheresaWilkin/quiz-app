@@ -4,7 +4,10 @@ var state = {
 {question: "What is 2 + 2?",
 answers: ["2", "5", "4", "8"],
 rightAnswer: 2,
-}],
+},{question: "What is 2 + 3?",
+answers: ["3", "5", "6", "1"],
+rightAnswer: 1,
+} ],
 correct: 0,
 current: 0,
 };
@@ -30,9 +33,34 @@ current: 0,
 		return state.questions[index];
 	}
 
-
-
 	//check if answer is correct
+	function getAnswer() {
+		return $(".js-question-form input:checked").val();
+	}
+
+	function checkAnswer() {
+		var question = getQuestion();
+		var answerChosen = parseInt(getAnswer());
+		if (question.rightAnswer === answerChosen) {
+			alert("Good job!");
+			addCorrect();
+		} else {
+			var correct = question.answers[question.rightAnswer]
+			alert("Incorrect. The correct answer was " + correct);
+		};
+	}
+
+	function nextQuestion() {
+		checkAnswer();
+		addCurrent();
+		renderQuestion();
+		updateHeader();
+		updateQuestionNumber();
+	}
+
+	function restartQuiz() {
+
+	}
 
 //dom interactions
 	//render question function
@@ -41,24 +69,17 @@ var renderQuestion = function () {
   var questionRender = (getQuestion());
   var theQuestion = (questionRender.question);
   var theAnswer = (questionRender.rightAnswer);
-   var questionHtml=
-			'<p>' +theQuestion+'</p>'+
-			'<input type="radio" name="answer1">'+questionRender.answers[0] + '<br>' +
-			'<input type="radio" name="answer2">'+ questionRender.answers[1]+ '<br>' +
-			'<input type="radio" name="answer3">'+questionRender.answers[2] +'<br>' +
-			'<input type="radio" name="answer4">'+questionRender.answers[3]+ '<br>'+
-			'<button>'+'Next'+'</button>'+
-			'<button>'+'Restart'+'</button>';
-			$(".js-question-form").html(questionHtml);
-
+  var questionHtml=
+		'<p>' +theQuestion+'</p>'+
+		'<input type="radio" name="answer" value="0" required>'+questionRender.answers[0] + '<br>' +
+		'<input type="radio" name="answer" value="1">'+ questionRender.answers[1]+ '<br>' +
+		'<input type="radio" name="answer" value="2">'+questionRender.answers[2] +'<br>' +
+		'<input type="radio" name="answer" value="3">'+questionRender.answers[3]+ '<br>'+
+		'<button class="next">' + 'Next' +'</button>'+
+		'<button>'+'Restart'+'</button>';
+	$(".js-question-form").html(questionHtml);
 };
 
-renderQuestion();
-
-
-		//pull question data from state
-		//create html for question
-		//put on page
 	//remove question from DOM function
 
 	//edit header bar for correctAnswers & totalAnswers var
@@ -83,7 +104,12 @@ $(function() {
 		//and render first question
 	$(".js-start").on("click", function() {
 		$(".js-welcome").addClass("hidden");
+		$(".js-answer-count").removeClass("hidden");
 		$(".js-question").removeClass("hidden");
+		$(".header").children().addClass("top")
+		updateHeader();
+		updateQuestionNumber();
+		renderQuestion();
 	});
 
 	//when "next" button clicked,
@@ -98,7 +124,10 @@ $(function() {
 		//update CurrentQuestion var
 		//render next question OR if last question,
 			//needs to render finish dialogue
-	$(".js-next").on("click", nextQuestion());
+	$(".js-question-form").on("submit", function(e) {
+		e.preventDefault();
+		nextQuestion();
+	});
 
 	//when finish dialogue
 		//says how many correct out of total number

@@ -2,12 +2,11 @@
 	display: none;
 }
 
-h1 {
+.top {
 	display: inline-block;
 }
 
 .js-answer-count {
-	display: inline-block;
 	margin-left: 30px;
 }
 
