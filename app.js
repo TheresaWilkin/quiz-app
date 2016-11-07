@@ -1,13 +1,14 @@
 //state object
-var state = {
-	questions: [
-{question: "What is 2 + 2?",
-answers: ["2", "5", "4", "8"],
-rightAnswer: 2,
-},{question: "What is 2 + 3?",
-answers: ["3", "5", "6", "1"],
-rightAnswer: 1,
-} ],
+var state = { [
+{question: "What is 2 + 2?", answers: ["2", "1", "4", "8"], rightAnswer: 2 },
+  
+{question: "What is 2 + 3?", answers: ["3", "5", "6", "1"], rightAnswer: 1 }, 
+
+{question: "What is 1 + 2?", answers: ["1", "8", "0", "3"], rightAnswer: 3 }, 
+
+{question: "What is 1 + 0?", answers: ["6", "7", "2", "1"], rightAnswer: 3 }, 
+
+{question: "What is 1 + 1?", answers: ["3", "2", "6", "0"], rightAnswer: 1 } ],
 correct: 0,
 current: 0,
 };
@@ -92,8 +93,8 @@ var renderQuestion = function () {
 		'<input type="radio" name="answer" value="1">'+ questionRender.answers[1]+ '<br>' +
 		'<input type="radio" name="answer" value="2">'+questionRender.answers[2] +'<br>' +
 		'<input type="radio" name="answer" value="3">'+questionRender.answers[3]+ '<br>'+
-		'<button class="next">' + 'Submit' +'</button>'+
-		'<button>'+'Restart'+'</button>';
+		'<button class="next">' + 'Submit' +'</button>'
+		
 	$(".js-question-form").html(questionHtml);
 };
 
@@ -129,6 +130,27 @@ $(function() {
 		renderQuestion();
 	});
 
+	$(".tryAgain").on("click", function() {
+  	state.correct=0;
+  	state.current=0;
+  	console.log(state.current);
+  	$(".js-question").removeClass("hidden");
+		$(".js-final").addClass("hidden");
+		updateHeader();
+		updateQuestionNumber();
+		renderQuestion();
+  });
+
+$(".restart").on("click", function (event) {
+event.preventDefault();
+state.correct=0;
+ state.current=0;
+updateHeader();
+		updateQuestionNumber();
+		renderQuestion();
+});
+
+
 	//when "next" button clicked,
 		//check if there IS an answer, possible error dialogue
 		//check answer (????????? how to mark correct answer when rendering? 
@@ -140,7 +162,7 @@ $(function() {
 		//remove current question from page
 		//update CurrentQuestion var
 		//render next question OR if last question,
-			//needs to render finish dialogue
+		//needs to render finish dialogue
 	$(".js-question-form").on("submit", function(e) {
 		e.preventDefault();
 		nextQuestion();
