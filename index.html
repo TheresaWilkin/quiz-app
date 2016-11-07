@@ -18,10 +18,10 @@
 
 	<div class="js-welcome">
 		<p>Welcome to the Quiz App. Are you ready to get started?</p>
-		<button>Start</button>
+		<button class="js-start">Start</button>
 	</div>
 
-	<div class="js-question">
+	<div class="js-question hidden">
 		<p>Question Number <span id="js-question-number">??</span></p>
 		<form>
 			<p>question text goes here</p>
@@ -29,12 +29,12 @@
 			<input type="radio" name="answer2"> answer 2<br>
 			<input type="radio" name="answer3"> answer 3<br>
 			<input type="radio" name="answer4"> answer 4<br>
-			<button>Next</button>
-			<button>Restart</button>
+			<button class="js-next">Next</button>
+			<button class="js-restart">Restart</button>
 		</form>
 	</div>
 	
-	<div class="js-question-final">
+	<div class="js-question-final hidden">
 		<p>Question Number <span id="js-question-number">??</span></p>
 		<form>
 			<p>question text goes here</p>
@@ -47,7 +47,7 @@
 		</form>
 	</div>
 
-	<div class="js-final">
+	<div class="js-final hidden">
 		<p>You have finished the quiz. You answered <span id="js-correct-answers">??</span> out of <span id="js-total-answers">??</span> correctly. Would you like to try again?</p>
 		<button>Try Again</button>
 	</div>

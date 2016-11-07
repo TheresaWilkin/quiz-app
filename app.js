@@ -7,7 +7,7 @@ rightAnswer: 2,
 }],
 correct: 0,
 current: 0,
-}
+};
 
 //state modifiers
 	function addCorrect() {
@@ -49,7 +49,9 @@ current: 0,
 
 	//tell user they are on question #?? (currentQuestion + 1)
 	function updateQuestionNumber() {
-		$("#js-question-number").text(getCurrent());
+		var questionNumber = getCurrent();
+		questionNumber++;
+		$("#js-question-number").text(questionNumber);
 	}
 
 //event listeners
@@ -59,6 +61,10 @@ $(function() {
 	//when click on start button,
 		//hide "start" dialogue
 		//and render first question
+	$(".js-start").on("click", function() {
+		$(".js-welcome").addClass("hidden");
+		$(".js-question").removeClass("hidden");
+	});
 
 	//when "next" button clicked,
 		//check if there IS an answer, possible error dialogue
@@ -72,14 +78,18 @@ $(function() {
 		//update CurrentQuestion var
 		//render next question OR if last question,
 			//needs to render finish dialogue
+	$(".js-next").on("click", nextQuestion());
 
 	//when finish dialogue
 		//says how many correct out of total number
 		//offers to try again
 		//can click button to restart quiz
 
+
+
 	//when restart button clicked,
 		//refreshes number variables to 0
-		//loads first question again		
+		//loads first question again
+	$(".js-restart").on("click", restartQuiz());		
 })
 
