@@ -1,20 +1,37 @@
 //state object
-var state = (function() return {
+var state = {
 	questions: [
 {question: "What is 2 + 2?",
 answers: ["2", "5", "4", "8"],
 rightAnswer: 2,
 },],
-correctAnswers: 0,
-totalAnswers: 0,
-currentQuestion: 0,
-}())
+correct: 0,
+current: 0,
+}
 
 //state modifiers
-	//add to correctAnswers
-	//add to totalAnswers
-	//get question
-	//add to currentQuestion
+	function addCorrect() {
+		state.correct++;
+	}
+	function addCurrent() {
+		state.current++;
+	}
+
+	function getCorrect() {
+		return state.correct;
+	}
+
+	function getCurrent() {
+		return state.current;
+	}
+
+	function getQuestion() {
+		var index = getCurrent();
+		return state.questions[index];
+	}
+
+
+
 	//check if answer is correct
 
 //dom interactions
@@ -29,6 +46,8 @@ currentQuestion: 0,
 
 //event listeners
 
+$(function() {
+	
 	//when click on start button,
 		//hide "start" dialogue
 		//and render first question
@@ -53,4 +72,6 @@ currentQuestion: 0,
 
 	//when restart button clicked,
 		//refreshes number variables to 0
-		//loads first question again
+		//loads first question again		
+})
+
