@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>Quiz App</title>
+	 <link rel="stylesheet" href="main.css">
+</head>
+<body>
+
+<header>
+	<div>
+		<p>Quiz App</p>
+		<p class="js-answer-count hidden"><span id="js-correct-answers">??</span> out of <span id="js-total-answers">??</span> correct</p>
+	</div>
+</header>
+
+<main>
+
+	<div class="js-welcome">
+		<p>Welcome to the Quiz App. Are you ready to get started?</p>
+		<button>Start</button>
+	</div>
+
+	<div class="js-question hidden">
+		<p>This is a question. I will have radio buttons.</p>
+	</div>
+	
+	<div class="js-final hidden">
+		<p>You have finished the quiz. You answered <span id="js-correct-answers">??</span> out of <span id="js-total-answers">??</span> correctly. Would you like to try again?</p>
+		<button>Try Again</button>
+	</div>
+
+</main>
+
+<script src="https://code.jquery.com/jquery-2.2.3.min.js"></script>
+<script src="app.js"></script>
+
+</body>
+</html>
