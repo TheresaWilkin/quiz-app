@@ -4,7 +4,7 @@ var state = {
 {question: "What is 2 + 2?",
 answers: ["2", "5", "4", "8"],
 rightAnswer: 2,
-},],
+}],
 correct: 0,
 current: 0,
 }
@@ -40,9 +40,17 @@ current: 0,
 		//create html for question
 		//put on page
 	//remove question from DOM function
-	//edit header bar for correctAnswers & totalAnswers var
-	//tell user they are on question #?? (currentQuestion + 1)
 
+	//edit header bar for correctAnswers & totalAnswers var
+	function updateHeader() {
+		$("#js-correct-answers").text(getCorrect());
+		$("#js-total-answers").text(getCurrent());
+	}
+
+	//tell user they are on question #?? (currentQuestion + 1)
+	function updateQuestionNumber() {
+		$("#js-question-number").text(getCurrent());
+	}
 
 //event listeners
 
