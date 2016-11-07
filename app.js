@@ -36,6 +36,23 @@ current: 0,
 
 //dom interactions
 	//render question function
+
+	var renderQuestion = function () {
+  
+  var questionRender = (getQuestion());
+  var theQuestion = (questionRender.question);
+  var theAnswer = (questionRender.rightAnswer);
+   return'<form>'+
+			'<p>' +theQuestion+'</p>'+
+			'<input type="radio" name="answer1">'+questionRender.answers[0] + '<br>' +
+			'<input type="radio" name="answer2">'+ questionRender.answers[1]+ '<br>' +
+			'<input type="radio" name="answer3">'+questionRender.answers[2] +'<br>' +
+			'<input type="radio" name="answer4">'+questionRender.answers[3]+ '<br>'+
+			'<button>'+'Next'+'</button>'+
+			'<button>'+'Restart'+'</button>'+
+		'</form>';
+
+};
 		//pull question data from state
 		//create html for question
 		//put on page
