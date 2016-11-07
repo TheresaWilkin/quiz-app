@@ -53,9 +53,26 @@ current: 0,
 	function nextQuestion() {
 		checkAnswer();
 		addCurrent();
-		renderQuestion();
 		updateHeader();
 		updateQuestionNumber();
+		if (testFinal()) {
+			submitQuiz();
+		} else {
+			renderQuestion();
+		};
+	}
+
+	function testFinal() {
+		return getCurrent() === state.questions.length;
+	}
+
+	function submitQuiz() {
+		$(".js-question").addClass("hidden");
+		$(".js-final").removeClass("hidden");
+		var text = "You have finished the quiz. You answered " +
+		getCorrect() + " out of " + getCurrent() + " questions correctly. " +
+		"Would you like to try again?";
+		$("#final-text").text(text);
 	}
 
 	function restartQuiz() {
@@ -75,7 +92,7 @@ var renderQuestion = function () {
 		'<input type="radio" name="answer" value="1">'+ questionRender.answers[1]+ '<br>' +
 		'<input type="radio" name="answer" value="2">'+questionRender.answers[2] +'<br>' +
 		'<input type="radio" name="answer" value="3">'+questionRender.answers[3]+ '<br>'+
-		'<button class="next">' + 'Next' +'</button>'+
+		'<button class="next">' + 'Submit' +'</button>'+
 		'<button>'+'Restart'+'</button>';
 	$(".js-question-form").html(questionHtml);
 };
