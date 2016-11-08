@@ -9,20 +9,3 @@
 .js-answer-count {
 	margin-left: 30px;
 }
-
-main {
-	border: black solid 1px;
-	width: 300px;
-}
-
-
-button {
-	width: 100px;
-	font-family: cursive;
-	font-size: 20px;
-	margin-left: 100px;
-}
-
-p {
-	margin: 10px;
-}
