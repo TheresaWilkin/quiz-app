@@ -136,8 +136,8 @@ function nextQuestion() {
 	};
 }
 
-var startTimer =function(){
- window.setTimeout(submitQuiz, 60000);
+function startTimer() {
+	window.setTimeout(submitQuiz, 60000);
 }
 
 //event listeners
