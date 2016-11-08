@@ -103,7 +103,7 @@ function submitQuiz() {
 	$(".js-question").addClass("hidden");
 	$(".js-final").removeClass("hidden");
 	var text = "You have finished the quiz. You answered " +
-	getCorrect() + " out of " + getCurrent() + " questions correctly. " +
+	getCorrect() + " out of " + state.questions.length + " questions correctly. " +
 	"Would you like to try again?";
 	$("#final-text").text(text);
 }
@@ -136,7 +136,9 @@ function nextQuestion() {
 	};
 }
 
-
+var startTimer =function(){
+ window.setTimeout(submitQuiz, 60000);
+}
 
 //event listeners
 
@@ -148,6 +150,7 @@ $(function() {
 		$(".js-question").removeClass("hidden");
 		$(".header").children().addClass("top")
 		setupQuestion();
+		startTimer();
 	});
 
 	$(".tryAgain").on("click", function() {
