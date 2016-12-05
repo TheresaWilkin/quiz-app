@@ -1,4 +1,6 @@
 //state object
+
+"use strict";
 var state = {
 	questions: [
 	{question: "What is 2 + 2?",
@@ -23,153 +25,180 @@ var state = {
 	}],
 	correct: 0,
 	current: 0,
+	route: 'start',
+	timerstate: "Blank"
+
+};
+
+var timerState = function(start,reset)  { 
+  if (start === true) {
+    state .timerState = 'Started';
+		 console.log('timer started') ;
+  }	 
+  if (reset === true) {
+    clearInterval(startTimer) ;
+    console.log('timerreset') ;
+  }
 };
 
 
 
-//state modifiers
-function addCorrect() {
-	state.correct++;
-}
-function addCurrent() {
-	state.current++;
-}
 
 
 
 //state accessors
-function getCorrect() {
-	return state.correct;
+
+
+
+function getCurrentQuestion (state) {
+	return state.questions[state.current];}
+
+function isQuizComplete(state) {//query function
+	return state.current === state.questions.length;
 }
 
-function getCurrent() {
-	return state.current;
-}
-
-function getQuestion() {
-	var index = getCurrent();
-	return state.questions[index];
-}
-
-function testFinal() {
-	return getCurrent() === state.questions.length;
-}
-
-function getAnswer() {
+function getAnswer(state) {
 	return parseInt($(".js-question-form input:checked").val());
 }
 
-function resetVar() {
+function resetVar(state) {
 	state.correct=0;
 	state.current=0;
+	state.route = 'start';
 }
 
 
 
 //dom interactions
 
-var renderQuestion = function () { 
-	var questionRender = (getQuestion());
-	var theQuestion = questionRender.question;
-	var theAnswer = questionRender.rightAnswer;
-	var questionHtml=
-	'<p>' +theQuestion+'</p>'+
-	'<input type="radio" name="answer" value="0" required>'+questionRender.answers[0] + '<br>' +
-	'<input type="radio" name="answer" value="1">'+ questionRender.answers[1]+ '<br>' +
-	'<input type="radio" name="answer" value="2">'+questionRender.answers[2] +'<br>' +
-	'<input type="radio" name="answer" value="3">'+questionRender.answers[3]+ '<br>'+
-	'<button class="next">' + 'Submit' +'</button>'		
+function renderApp (state)  {
+	switch (state.route){
+		case 'start':
+			return renderStart(state);
+		case 'finish':
+			return submitQuiz(state);
+		case 'next':
+			return renderQuestion(state);
+	}
+}
+
+var renderStart = function (state) {
+	$(".js-welcome").addClass("hidden");
+		$(".js-answer-count").removeClass("hidden");
+		$(".js-question").removeClass("hidden");
+		$(".header").children().addClass("top");
+		updateHeader(state);
+		updateQuestionNumber(state);
+		renderQuestion(state);
+		$(".js-final").addClass("hidden");
+		var startTimer = setInterval(timerState(), 99999);
+};
+
+ 
+
+var renderQuestion = function (state) { //get rid of this and call next question
+	var questionRender = state.questions;
+	var theQuestion = questionRender[state.current].question;
+	var possibleAnswers = state.questions[state.current].answers;
+	var questionHtml='<p>' + theQuestion + '</p>' + '<input type="radio" name="answer" value="0" required>'+
+     possibleAnswers[0] + '<br>' + '<input type="radio" name="answer" value="1">' +
+		 possibleAnswers[1] + '<br>' + '<input type="radio" name="answer" value="2">' +
+		 possibleAnswers[2] +'<br>'  + '<input type="radio" name="answer" value="3">' +
+		 possibleAnswers[3] + '<br>' + '<button class="next">' + 'Submit' + '</button>';
 	$(".js-question-form").html(questionHtml);
 };
 
-function updateHeader() {
-	$("#js-correct-answers").text(getCorrect());
-	$("#js-total-answers").text(getCurrent());
+
+function updateQuestionNumber(state) {
+	
+	$("#js-question-number").text(state.current+1);
 }
 
-function updateQuestionNumber() {
-	var questionNumber = getCurrent();
-	questionNumber++;
-	$("#js-question-number").text(questionNumber);
-}
 
-function setupQuestion() {
-	updateHeader();
-	updateQuestionNumber();
-	renderQuestion();
-}
 
-function submitQuiz() {
+function submitQuiz(state) {
 	$(".js-question").addClass("hidden");
 	$(".js-final").removeClass("hidden");
 	var text = "You have finished the quiz. You answered " +
-	getCorrect() + " out of " + state.questions.length + " questions correctly. " +
+	state.correct + " out of " + state.questions.length + " questions correctly. " +
 	"Would you like to try again?";
 	$("#final-text").text(text);
+	clearTimeout(state.timer);
+
 }
 
 
 
 //controllers
 
-function checkAnswer() {
-	var question = getQuestion();
-	var answerChosen = getAnswer();
-	if (question.rightAnswer === answerChosen) {
-		alert("Good job!");
-		addCorrect();
-	} else {
-		var correct = question.answers[question.rightAnswer]
-		alert("Incorrect. The correct answer was " + correct);
-	};
-}
 
-function nextQuestion() {
-	checkAnswer();
-	addCurrent();
-	updateHeader();
-	updateQuestionNumber();
-	if (testFinal()) {
-		submitQuiz();
-	} else {
-		renderQuestion();
-	};
-}
 
-var startTimer =function(){
- window.setTimeout(submitQuiz, 60000);
-}
+
+var startTimer =function(state){
+ if(state.timer){
+ 	clearTimeout(state.timer);
+ } 
+ state.timer= setTimeout(submitQuiz, 60000);
+};
 
 //event listeners
 
 $(function() {
 	
 	$(".js-start").on("click", function() {
-		$(".js-welcome").addClass("hidden");
-		$(".js-answer-count").removeClass("hidden");
-		$(".js-question").removeClass("hidden");
-		$(".header").children().addClass("top")
-		setupQuestion();
-		startTimer();
+		state.route = 'start';
+		state.current = 0;
+		renderApp(state);
+
+		
 	});
 
 	$(".tryAgain").on("click", function() {
-		resetVar();
-		$(".js-question").removeClass("hidden");
-		$(".js-final").addClass("hidden");
-		setupQuestion();
+		resetVar(state);
+		renderApp(state);
+	
 	});
 
 	$(".restart").on("click", function (event) {
 		event.preventDefault();
-		resetVar();
-		setupQuestion();
+		resetVar(state);
+		renderApp(state);
+		
 	});
 
 	$(".js-question-form").on("submit", function(e) {
 		e.preventDefault();
-		nextQuestion();
-	});
+		checkAnswer(state);
+		state.current++;
+		updateHeader(state);
 
-})
+		updateQuestionNumber(state);
+
+		state.route = isQuizComplete(state) ? 'finish' : 'next'; //if current is the same as the number of questions it's finished otherwise the state is next
+		renderApp(state);
+		
+	});
+	
+});
+
+
+
+function checkAnswer(state) {
+	var question = state.questions[state.current];
+	var answerChosen = getAnswer(state);
+	if (question.rightAnswer === answerChosen) {
+		alert("Good job!");
+		state.correct++;
+	} else {
+		var correct = question.answers[question.rightAnswer];
+		alert("Incorrect. The correct answer was " + correct);
+	}
+}
+
+
+
+function updateHeader(state) {
+	$("#js-correct-answers").text(state.correct);
+	$("#js-total-answers").text(state.current);
+}
 
