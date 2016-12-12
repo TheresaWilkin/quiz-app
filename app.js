@@ -1,7 +1,7 @@
 //state object
 
 "use strict";
-var state = {
+const state = {
 	questions: [
 	{question: "What is 2 + 2?",
 	answers: ["2", "1", "4", "8"],
@@ -30,16 +30,7 @@ var state = {
 
 };
 
-var timerState = function(start,reset)  { 
-  if (start === true) {
-    state .timerState = 'Started';
-		 console.log('timer started') ;
-  }	 
-  if (reset === true) {
-    clearInterval(startTimer) ;
-    console.log('timerreset') ;
-  }
-};
+
 
 
 
@@ -50,18 +41,15 @@ var timerState = function(start,reset)  {
 
 
 
-function getCurrentQuestion (state) {
-	return state.questions[state.current];}
+const getCurrentQuestion = (state) =>  state.questions[state.current];
 
-function isQuizComplete(state) {//query function
-	return state.current === state.questions.length;
-}
+const isQuizComplete = (state) => state.current === state.questions.length;
 
-function getAnswer(state) {
-	return parseInt($(".js-question-form input:checked").val());
-}
 
-function resetVar(state) {
+const getAnswer = (state) => parseInt($(".js-question-form input:checked").val());
+
+
+const resetVar = (state) => {
 	state.correct=0;
 	state.current=0;
 	state.route = 'start';
@@ -71,7 +59,7 @@ function resetVar(state) {
 
 //dom interactions
 
-function renderApp (state)  {
+const renderApp = (state) =>  {
 	switch (state.route){
 		case 'start':
 			return renderStart(state);
@@ -82,7 +70,7 @@ function renderApp (state)  {
 	}
 }
 
-var renderStart = function (state) {
+const renderStart =  (state) => {
 	$(".js-welcome").addClass("hidden");
 		$(".js-answer-count").removeClass("hidden");
 		$(".js-question").removeClass("hidden");
@@ -91,37 +79,39 @@ var renderStart = function (state) {
 		updateQuestionNumber(state);
 		renderQuestion(state);
 		$(".js-final").addClass("hidden");
-		var startTimer = setInterval(timerState(), 99999);
+		const startTimer = setInterval(timerState(), 99999);
 };
 
  
 
-var renderQuestion = function (state) { //get rid of this and call next question
-	var questionRender = state.questions;
-	var theQuestion = questionRender[state.current].question;
-	var possibleAnswers = state.questions[state.current].answers;
-	var questionHtml='<p>' + theQuestion + '</p>' + '<input type="radio" name="answer" value="0" required>'+
-     possibleAnswers[0] + '<br>' + '<input type="radio" name="answer" value="1">' +
-		 possibleAnswers[1] + '<br>' + '<input type="radio" name="answer" value="2">' +
-		 possibleAnswers[2] +'<br>'  + '<input type="radio" name="answer" value="3">' +
-		 possibleAnswers[3] + '<br>' + '<button class="next">' + 'Submit' + '</button>';
+const renderQuestion = (state) => { //get rid of this and call next question
+	let questionRender = state.questions;
+	let theQuestion = questionRender[state.current].question;
+	let possibleAnswers = state.questions[state.current].answers;
+	let questionHtml=`<p>  ${theQuestion}  </p>
+		<input type="radio" name="answer" value="0" required> 
+		 ${possibleAnswers[0]} <br>  <input type="radio" name="answer" value="1"> 
+		 ${possibleAnswers[1]} <br>  <input type="radio" name="answer" value="2"> 
+		 ${possibleAnswers[2]} <br>  <input type="radio" name="answer" value="3"> 
+		 ${possibleAnswers[3]} <br>  
+		 <button class="next">  Submit  </button>`;
+
 	$(".js-question-form").html(questionHtml);
 };
 
 
-function updateQuestionNumber(state) {
-	
-	$("#js-question-number").text(state.current+1);
-}
+const updateQuestionNumber = (state) => $("#js-question-number").text(state.current+1);
 
 
 
-function submitQuiz(state) {
+
+const submitQuiz = (state) => {
 	$(".js-question").addClass("hidden");
 	$(".js-final").removeClass("hidden");
-	var text = "You have finished the quiz. You answered " +
-	state.correct + " out of " + state.questions.length + " questions correctly. " +
-	"Would you like to try again?";
+	let text = `You have finished the quiz. You answered 
+		${state.correct}  out of  ${ state.questions.length } questions correctly. 
+		Would you like to try again?`;
+
 	$("#final-text").text(text);
 	clearTimeout(state.timer);
 
@@ -134,7 +124,7 @@ function submitQuiz(state) {
 
 
 
-var startTimer =function(state){
+const startTimer =(state) => {
  if(state.timer){
  	clearTimeout(state.timer);
  } 
@@ -143,9 +133,9 @@ var startTimer =function(state){
 
 //event listeners
 
-$(function() {
+$(() => {
 	
-	$(".js-start").on("click", function() {
+	$(".js-start").on("click", () => {
 		state.route = 'start';
 		state.current = 0;
 		renderApp(state);
@@ -153,20 +143,20 @@ $(function() {
 		
 	});
 
-	$(".tryAgain").on("click", function() {
+	$(".tryAgain").on("click", () => {
 		resetVar(state);
 		renderApp(state);
 	
 	});
 
-	$(".restart").on("click", function (event) {
+	$(".restart").on("click", (event) => {
 		event.preventDefault();
 		resetVar(state);
 		renderApp(state);
 		
 	});
 
-	$(".js-question-form").on("submit", function(e) {
+	$(".js-question-form").on("submit", (e) => {
 		e.preventDefault();
 		checkAnswer(state);
 		state.current++;
@@ -183,21 +173,21 @@ $(function() {
 
 
 
-function checkAnswer(state) {
-	var question = state.questions[state.current];
-	var answerChosen = getAnswer(state);
+const checkAnswer = (state) => {
+	let question = state.questions[state.current];
+	let answerChosen = getAnswer(state);
 	if (question.rightAnswer === answerChosen) {
 		alert("Good job!");
 		state.correct++;
 	} else {
-		var correct = question.answers[question.rightAnswer];
+		let correct = question.answers[question.rightAnswer];
 		alert("Incorrect. The correct answer was " + correct);
 	}
 }
 
 
 
-function updateHeader(state) {
+const updateHeader = (state) => {
 	$("#js-correct-answers").text(state.correct);
 	$("#js-total-answers").text(state.current);
 }
